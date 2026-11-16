@@ -115,6 +115,7 @@ test('la guía se abre desde la pausa, mantiene el juego pausado y vuelve a la p
   expect(await pause.getByRole('button').allInnerTexts()).toEqual([
     'Reanudar',
     'Cómo jugar',
+    'Opciones',
     'Salir al menú',
   ]);
 
@@ -144,6 +145,96 @@ test('la guía se abre desde la pausa, mantiene el juego pausado y vuelve a la p
   await page.keyboard.press('Escape');
   await expect(pause).toBeHidden();
   await expect(page.getByTestId('world-hud')).toBeVisible();
+
+  expect(errors).toEqual([]);
+});
+
+/** Datos de la escena de la diapositiva visible, leídos del estilo calculado. */
+const sceneInfo = (guide: Locator) =>
+  guide.locator('.slide-scene').evaluate((element) => {
+    const style = getComputedStyle(element);
+    const previous = element.previousElementSibling;
+    const next = element.nextElementSibling;
+    return {
+      role: element.getAttribute('role'),
+      label: element.getAttribute('aria-label') ?? '',
+      image: style.backgroundImage,
+      frames: Number(style.getPropertyValue('--frames')),
+      animation: style.animationName,
+      rendering: style.imageRendering,
+      betweenTitleAndText: previous?.tagName === 'H3' && next?.tagName === 'P',
+    };
+  });
+
+test('cada diapositiva muestra su escena animada con texto alternativo', async ({ page }) => {
+  const errors = trackErrors(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Cómo jugar' }).click();
+  const guide = guideIn(page);
+
+  const labels: string[] = [];
+  for (let number = 1; number <= 6; number++) {
+    if (number > 1) await guide.getByRole('button', { name: 'Siguiente' }).click();
+    await expectSlide(guide, number);
+    const scene = await sceneInfo(guide);
+    expect(scene.role).toBe('img');
+    expect(scene.label).not.toBe('');
+    expect(scene.image).toMatch(/^url\("data:image\/png/);
+    expect(scene.frames).toBeGreaterThanOrEqual(2);
+    expect(scene.frames).toBeLessThanOrEqual(4);
+    expect(scene.animation).not.toBe('none');
+    expect(scene.rendering).toBe('pixelated');
+    expect(scene.betweenTitleAndText).toBe(true);
+    labels.push(scene.label);
+  }
+  expect(new Set(labels).size).toBe(6);
+
+  expect(errors).toEqual([]);
+});
+
+test('con movimiento reducido la escena se queda en el primer fotograma', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Cómo jugar' }).click();
+  const scene = await sceneInfo(guideIn(page));
+  expect(scene.animation).toBe('none');
+});
+
+test('la guía abierta desde la pausa también muestra la escena', async ({ page }) => {
+  const errors = trackErrors(page);
+  await startWorld(page);
+  await page.keyboard.press('Escape');
+  const pause = page.getByRole('dialog', { name: 'Pausa' });
+  await pause.getByRole('button', { name: 'Cómo jugar' }).click();
+  const guide = guideIn(pause);
+  await expectSlide(guide, 1);
+  await expect(guide.getByRole('img', { name: /camina sobre la hierba/ })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('si una escena no se puede componer, su diapositiva se muestra sin ella', async ({ page }) => {
+  // La tira de la noche (2 fotogramas de 96 × 48) falla al exportarse; el resto no se toca.
+  await page.addInitScript(() => {
+    const prototype = HTMLCanvasElement.prototype;
+    const original = Object.getOwnPropertyDescriptor(prototype, 'toDataURL')?.value as (
+      this: HTMLCanvasElement,
+      ...args: unknown[]
+    ) => string;
+    prototype.toDataURL = function (this: HTMLCanvasElement, ...args: unknown[]) {
+      if (this.width === 192 && this.height === 48) throw new Error('fallo simulado');
+      return original.apply(this, args);
+    };
+  });
+  const errors = trackErrors(page);
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Cómo jugar' }).click();
+  const guide = guideIn(page);
+  await expect(guide.locator('.slide-scene')).toHaveCount(1);
+
+  await guide.getByRole('button', { name: /^Diapositiva 6:/ }).click();
+  await expectSlide(guide, 6);
+  await expect(guide.locator('.slide-scene')).toHaveCount(0);
+  await expect(guide.getByText('coloca antorchas')).toBeVisible();
 
   expect(errors).toEqual([]);
 });

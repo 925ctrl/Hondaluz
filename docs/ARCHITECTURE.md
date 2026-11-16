@@ -191,6 +191,13 @@ el bloque afectado y sus vecinos. El dominio no emite eventos de dibujo ni conoc
 `generateItemAtlas` crea el atlas de objetos para Phaser y entrega cada icono como imagen a
 `ItemIcons`, que usa la interfaz HTML. El arte tiene un único origen.
 
+Las escenas animadas de la guía «Cómo jugar» siguen la misma idea: `generateHowToPlayScenes`
+(`display/howToPlayScenes.ts`) las compone en la precarga con el tileset y los atlas de
+objetos, jugador, enemigos y luz, y las guarda en `HowToPlayScenes` como tiras de fotogramas.
+La guía las anima solo con CSS (`steps()`), sin timers, y con `prefers-reduced-motion` muestra
+el primer fotograma. Una escena que no se puede componer se omite y la diapositiva queda solo
+con texto.
+
 ### El ratón solo actúa sobre el mundo si se pulsa en el canvas
 
 `KeyboardMouseInput` escucha los botones en el canvas, no en la ventana, y el HUD deja pasar

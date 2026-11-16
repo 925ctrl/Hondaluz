@@ -237,6 +237,37 @@ input::placeholder {
   align-content: start;
 }
 
+.slide-scene {
+  /* Fotograma nativo de 96 × 48 px escalado ×3; la tira trae `--frames` fotogramas en fila. */
+  --frames: 1;
+  width: 288px;
+  max-width: 100%;
+  aspect-ratio: 2 / 1;
+  justify-self: center;
+  background-repeat: no-repeat;
+  background-size: calc(var(--frames) * 100%) 100%;
+  image-rendering: pixelated;
+  box-shadow: 0 0 0 var(--px) var(--ink);
+  animation: slide-scene-play calc(var(--frames) * 300ms) steps(var(--frames)) infinite;
+}
+
+/* Con fondo más ancho que la caja, un porcentaje de posición se mide sobre la diferencia
+   de anchos: N / (N - 1) × 100 % desplaza la tira entera y `steps()` para en cada fotograma. */
+@keyframes slide-scene-play {
+  from {
+    background-position-x: 0%;
+  }
+  to {
+    background-position-x: calc(100% * var(--frames) / (var(--frames) - 1));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide-scene {
+    animation: none;
+  }
+}
+
 .slide-keys {
   display: grid;
   gap: 8px;

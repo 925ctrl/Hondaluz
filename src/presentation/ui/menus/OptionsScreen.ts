@@ -6,15 +6,21 @@ import {
 } from '../../../config/controls.config';
 import { RESERVED_CODES } from '../../../domain/settings/Settings';
 import { formatInputCode } from '../../input/formatInputCode';
+import type { SettingsStore } from '../../../application/use-cases/settings/SettingsStore';
 import { button, el } from '../dom';
-import type { MenuContext } from './MenuContext';
+
+export interface OptionsDeps {
+  readonly settings: SettingsStore;
+  /** Vuelve al menú desde el que se abrieron las opciones. */
+  readonly onClose: () => void;
+}
 
 /**
  * Opciones: volumen de música y efectos, y teclas de cada acción. Para cambiar una tecla se
- * pulsa su botón y después la tecla o el botón del ratón nuevos; ESC cancela.
+ * pulsa su botón y después la tecla o el botón del ratón nuevos; ESC cancela. Devuelve el
+ * contenido del panel, para usarlo tanto en el menú principal como en la pausa.
  */
-export function renderOptionsScreen(context: MenuContext): HTMLElement {
-  const { settings } = context;
+export function renderOptions({ settings, onClose }: OptionsDeps): HTMLElement[] {
   const status = el('p', {
     class: 'hint',
     attrs: { role: 'status', 'data-testid': 'options-status' },
@@ -109,7 +115,7 @@ export function renderOptionsScreen(context: MenuContext): HTMLElement {
   };
 
   render();
-  return el('div', { class: 'panel' }, [
+  return [
     el('h2', { text: 'Opciones' }),
     el('h3', { text: 'Sonido' }),
     volume('Música', 'musicVolume'),
@@ -127,13 +133,7 @@ export function renderOptionsScreen(context: MenuContext): HTMLElement {
         },
         'btn btn-secondary',
       ),
-      button(
-        'Volver',
-        () => {
-          context.navigate('main');
-        },
-        'btn btn-secondary',
-      ),
+      button('Volver', onClose, 'btn btn-secondary'),
     ]),
-  ]);
+  ];
 }

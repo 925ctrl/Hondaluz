@@ -7,6 +7,7 @@ import type { VirtualControls } from '../input/TouchInput';
 import type { View } from './dom';
 import type { GameUi } from './GameUi';
 import { createWorldHud } from './hud/WorldHud';
+import type { HowToPlayScenes } from './HowToPlayScenes';
 import type { ItemIcons } from './ItemIcons';
 import { createMenuView } from './menus/MenuView';
 import { createPauseMenu } from './menus/PauseMenu';
@@ -16,6 +17,7 @@ export interface DomGameUiDeps {
   readonly catalog: WorldCatalog;
   readonly content: GameContent;
   readonly icons: ItemIcons;
+  readonly scenes: HowToPlayScenes;
   readonly settings: SettingsStore;
 }
 
@@ -43,7 +45,9 @@ export class DomGameUi implements GameUi {
   setPauseVisible(visible: boolean): void {
     if (visible === (this.pause !== undefined)) return;
     if (visible) {
-      this.pause = this.mount(createPauseMenu(this.deps.events, this.deps.settings));
+      this.pause = this.mount(
+        createPauseMenu(this.deps.events, this.deps.settings, this.deps.scenes),
+      );
     } else {
       this.unmount(this.pause);
       this.pause = undefined;

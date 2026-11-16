@@ -25,6 +25,7 @@ import { PreloadScene } from './presentation/scenes/PreloadScene';
 import type { SceneDeps } from './presentation/scenes/SceneDeps';
 import { WorldScene } from './presentation/scenes/WorldScene';
 import { DomGameUi } from './presentation/ui/DomGameUi';
+import { HowToPlayScenes } from './presentation/ui/HowToPlayScenes';
 import { ItemIcons } from './presentation/ui/ItemIcons';
 
 /** Raíz de composición: el único lugar donde se construyen y conectan las dependencias. */
@@ -64,14 +65,16 @@ export function startGame(gameParent: HTMLElement, uiRoot: HTMLElement): Phaser.
     createId: () => crypto.randomUUID(),
   });
   const icons = new ItemIcons();
+  const scenes = new HowToPlayScenes();
   const sceneDeps: SceneDeps = {
     events,
-    ui: new DomGameUi(uiRoot, { events, catalog, content, icons, settings }),
+    ui: new DomGameUi(uiRoot, { events, catalog, content, icons, scenes, settings }),
     settings,
     audio,
     debug: new URLSearchParams(window.location.search).has('e2e'),
     content,
     icons,
+    scenes,
     createSession: createSessionFactory(
       content,
       () => {

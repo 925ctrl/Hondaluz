@@ -1,6 +1,6 @@
 # SPEC 01 — Guía «Cómo jugar» en diapositivas
 
-> **Estado:** Aprobado
+> **Estado:** Implementado
 > **Depende de:** Ninguna
 > **Fecha:** 2026-11-15
 > **Objetivo:** Añadir una guía «Cómo jugar» de seis diapositivas navegables, accesible desde el menú principal y desde el menú de pausa, que muestra las teclas que el jugador tiene asignadas.
