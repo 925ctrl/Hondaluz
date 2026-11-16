@@ -43,7 +43,7 @@ export class DomGameUi implements GameUi {
   setPauseVisible(visible: boolean): void {
     if (visible === (this.pause !== undefined)) return;
     if (visible) {
-      this.pause = this.mount(createPauseMenu(this.deps.events));
+      this.pause = this.mount(createPauseMenu(this.deps.events, this.deps.settings));
     } else {
       this.unmount(this.pause);
       this.pause = undefined;

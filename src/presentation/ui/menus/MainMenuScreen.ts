@@ -29,6 +29,9 @@ export function renderMainMenuScreen(context: MenuContext): HTMLElement {
       button('Seleccionar mundo', () => {
         context.navigate('select-world');
       }),
+      button('Cómo jugar', () => {
+        context.navigate('how-to-play');
+      }),
       button('Opciones', () => {
         context.navigate('options');
       }),

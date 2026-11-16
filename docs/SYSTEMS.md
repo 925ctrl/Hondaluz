@@ -266,6 +266,7 @@ una función que devuelve un elemento; las que registran listeners globales devu
 | Opciones (volumen y reasignación de teclas)               | `ui/menus/OptionsScreen.ts`      |
 | Controles táctiles                                        | `ui/hud/TouchControls.ts`        |
 | Créditos                                                  | `ui/menus/CreditsScreen.ts`      |
+| Cómo jugar (diapositivas; también desde la pausa)         | `ui/menus/HowToPlayGuide.ts`     |
 | Pausa                                                     | `ui/menus/PauseMenu.ts`          |
 | HUD del mundo (datos, bioma, vida, reloj, muerte, teclas) | `ui/hud/WorldHud.ts`             |
 | Barra rápida                                              | `ui/hud/Hotbar.ts`               |
