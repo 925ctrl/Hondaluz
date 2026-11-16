@@ -258,20 +258,20 @@ en `localStorage`).
 una función que devuelve un elemento; las que registran listeners globales devuelven también
 `dispose`.
 
-| Pantalla                                                  | Archivo                          |
-| --------------------------------------------------------- | -------------------------------- |
-| Menú principal                                            | `ui/menus/MainMenuScreen.ts`     |
-| Nueva partida                                             | `ui/menus/NewWorldScreen.ts`     |
-| Seleccionar mundo                                         | `ui/menus/WorldSelectScreen.ts`  |
-| Opciones (volumen y reasignación de teclas)               | `ui/menus/OptionsScreen.ts`      |
-| Controles táctiles                                        | `ui/hud/TouchControls.ts`        |
-| Créditos                                                  | `ui/menus/CreditsScreen.ts`      |
-| Cómo jugar (diapositivas; también desde la pausa)         | `ui/menus/HowToPlayGuide.ts`     |
-| Pausa                                                     | `ui/menus/PauseMenu.ts`          |
-| HUD del mundo (datos, bioma, vida, reloj, muerte, teclas) | `ui/hud/WorldHud.ts`             |
-| Barra rápida                                              | `ui/hud/Hotbar.ts`               |
-| Inventario                                                | `ui/inventory/InventoryPanel.ts` |
-| Fabricación                                               | `ui/crafting/CraftingPanel.ts`   |
+| Pantalla                                                                           | Archivo                          |
+| ---------------------------------------------------------------------------------- | -------------------------------- |
+| Menú principal                                                                     | `ui/menus/MainMenuScreen.ts`     |
+| Nueva partida                                                                      | `ui/menus/NewWorldScreen.ts`     |
+| Seleccionar mundo                                                                  | `ui/menus/WorldSelectScreen.ts`  |
+| Opciones (volumen y reasignación de teclas)                                        | `ui/menus/OptionsScreen.ts`      |
+| Controles táctiles                                                                 | `ui/hud/TouchControls.ts`        |
+| Créditos                                                                           | `ui/menus/CreditsScreen.ts`      |
+| Cómo jugar (diapositivas con escenas de `HowToPlayScenes`; también desde la pausa) | `ui/menus/HowToPlayGuide.ts`     |
+| Pausa                                                                              | `ui/menus/PauseMenu.ts`          |
+| HUD del mundo (datos, bioma, vida, reloj, muerte, teclas)                          | `ui/hud/WorldHud.ts`             |
+| Barra rápida                                                                       | `ui/hud/Hotbar.ts`               |
+| Inventario                                                                         | `ui/inventory/InventoryPanel.ts` |
+| Fabricación                                                                        | `ui/crafting/CraftingPanel.ts`   |
 
 ## Pendientes
 

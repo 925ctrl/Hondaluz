@@ -1,10 +1,12 @@
 import type { SettingsStore } from '../../../application/use-cases/settings/SettingsStore';
 import { formatInputCode } from '../../input/formatInputCode';
 import { button, el } from '../dom';
+import type { HowToPlayScenes } from '../HowToPlayScenes';
 import { HOW_TO_PLAY_SLIDES, type HowToPlayKey, type HowToPlaySlide } from './howToPlaySlides';
 
 export interface HowToPlayGuideDeps {
   readonly settings: SettingsStore;
+  readonly scenes: HowToPlayScenes;
   /** Vuelve al menú desde el que se abrió la guía. */
   readonly onClose: () => void;
 }
@@ -13,7 +15,11 @@ export interface HowToPlayGuideDeps {
  * Guía «Cómo jugar» en diapositivas. Siempre empieza en la primera. Solo se rehace la zona
  * de contenido al cambiar de diapositiva, para que el foco siga en el control usado.
  */
-export function renderHowToPlayGuide({ settings, onClose }: HowToPlayGuideDeps): HTMLElement {
+export function renderHowToPlayGuide({
+  settings,
+  scenes,
+  onClose,
+}: HowToPlayGuideDeps): HTMLElement {
   const total = HOW_TO_PLAY_SLIDES.length;
   let index = 0;
 
@@ -70,7 +76,7 @@ export function renderHowToPlayGuide({ settings, onClose }: HowToPlayGuideDeps):
     const slide = HOW_TO_PLAY_SLIDES[target];
     if (!slide) return;
     index = target;
-    content.replaceChildren(...renderSlide(slide, settings));
+    content.replaceChildren(...renderSlide(slide, settings, scenes));
     position.textContent = `${String(index + 1)} / ${String(total)}`;
     dots.forEach((dot, dotIndex) => {
       if (dotIndex === index) dot.setAttribute('aria-current', 'step');
@@ -84,9 +90,15 @@ export function renderHowToPlayGuide({ settings, onClose }: HowToPlayGuideDeps):
   return root;
 }
 
-function renderSlide(slide: HowToPlaySlide, settings: SettingsStore): HTMLElement[] {
+function renderSlide(
+  slide: HowToPlaySlide,
+  settings: SettingsStore,
+  scenes: HowToPlayScenes,
+): HTMLElement[] {
+  const scene = renderScene(slide, scenes);
   return [
     el('h3', { text: slide.title }),
+    ...(scene ? [scene] : []),
     ...slide.lines.map((line) => el('p', { text: line })),
     el(
       'ul',
@@ -99,6 +111,19 @@ function renderSlide(slide: HowToPlaySlide, settings: SettingsStore): HTMLElemen
       ),
     ),
   ];
+}
+
+/** Escena animada de la diapositiva; sin escena en el almacén, la diapositiva va sin ella. */
+function renderScene(slide: HowToPlaySlide, scenes: HowToPlayScenes): HTMLElement | undefined {
+  const strip = scenes.get(slide.scene);
+  if (!strip) return undefined;
+  const scene = el('div', {
+    class: 'slide-scene',
+    attrs: { role: 'img', 'aria-label': slide.sceneAlt },
+  });
+  scene.style.backgroundImage = `url("${strip.url}")`;
+  scene.style.setProperty('--frames', String(strip.frames));
+  return scene;
 }
 
 /** Lo que se ve en los chips: las teclas en uso de la acción, o la entrada fija. */

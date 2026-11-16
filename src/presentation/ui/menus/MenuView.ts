@@ -4,19 +4,30 @@ import { renderHowToPlayGuide } from './HowToPlayGuide';
 import { renderMainMenuScreen } from './MainMenuScreen';
 import type { MenuContext, MenuRoute } from './MenuContext';
 import { renderNewWorldScreen } from './NewWorldScreen';
-import { renderOptionsScreen } from './OptionsScreen';
+import { renderOptions } from './OptionsScreen';
 import { renderWorldSelectScreen } from './WorldSelectScreen';
 
 const SCREENS: Readonly<Record<MenuRoute, (context: MenuContext) => HTMLElement>> = {
   main: renderMainMenuScreen,
   'new-world': renderNewWorldScreen,
   'select-world': renderWorldSelectScreen,
-  options: renderOptionsScreen,
+  options: (context) =>
+    el(
+      'div',
+      { class: 'panel' },
+      renderOptions({
+        settings: context.settings,
+        onClose: () => {
+          context.navigate('main');
+        },
+      }),
+    ),
   credits: renderCreditsScreen,
   'how-to-play': (context) =>
     el('div', { class: 'panel panel-wide' }, [
       renderHowToPlayGuide({
         settings: context.settings,
+        scenes: context.scenes,
         onClose: () => {
           context.navigate('main');
         },

@@ -8,6 +8,7 @@ import type { SettingsStore } from '../../application/use-cases/settings/Setting
 import type { GameContent } from '../../domain/catalog/GameContent';
 import type { AudioEngine } from '../audio/AudioEngine';
 import type { GameUi } from '../ui/GameUi';
+import type { HowToPlayScenes } from '../ui/HowToPlayScenes';
 import type { ItemIcons } from '../ui/ItemIcons';
 
 export const SCENE_KEYS = {
@@ -22,6 +23,7 @@ export interface SceneDeps {
   readonly ui: GameUi;
   readonly content: GameContent;
   readonly icons: ItemIcons;
+  readonly scenes: HowToPlayScenes;
   readonly createSession: WorldSessionFactory;
   readonly settings: SettingsStore;
   readonly audio: AudioEngine;

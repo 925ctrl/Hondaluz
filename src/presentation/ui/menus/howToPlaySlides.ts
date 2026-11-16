@@ -1,4 +1,5 @@
 import type { GameAction } from '../../../config/controls.config';
+import type { HowToPlaySceneId } from '../HowToPlayScenes';
 
 /** Una entrada que la guía muestra como chip: reasignable (`action`) o fija (`fixed`). */
 export type HowToPlayKey =
@@ -10,6 +11,10 @@ export interface HowToPlaySlide {
   /** De dos a cuatro frases cortas. Describen mecánicas, nunca teclas literales. */
   readonly lines: readonly string[];
   readonly keys: readonly HowToPlayKey[];
+  /** Escena que ilustra la diapositiva. */
+  readonly scene: HowToPlaySceneId;
+  /** Texto alternativo de la escena: describe lo que ocurre en ella. */
+  readonly sceneAlt: string;
 }
 
 /** Las diapositivas de «Cómo jugar», en orden. */
@@ -26,6 +31,8 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       { action: 'moveRight', label: 'Derecha' },
       { action: 'jump', label: 'Saltar' },
     ],
+    scene: 'move',
+    sceneAlt: 'El personaje camina sobre la hierba y da un salto.',
   },
   {
     title: 'Minar y construir',
@@ -38,6 +45,9 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       { action: 'primaryUse', label: 'Minar (mantener)' },
       { action: 'secondaryUse', label: 'Colocar' },
     ],
+    scene: 'mine',
+    sceneAlt:
+      'Un pico golpea un bloque de piedra hasta romperlo y después se coloca un bloque de tierra en su lugar.',
   },
   {
     title: 'Inventario y barra rápida',
@@ -51,6 +61,9 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       { fixed: '1-9', label: 'Elegir ranura' },
       { fixed: 'Rueda del ratón', label: 'Cambiar ranura' },
     ],
+    scene: 'hotbar',
+    sceneAlt:
+      'Una barra rápida con varios objetos en la que la ranura seleccionada avanza de una en una.',
   },
   {
     title: 'Fabricar',
@@ -60,6 +73,8 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       'Las recetas bloqueadas indican qué te falta.',
     ],
     keys: [{ action: 'inventory', label: 'Abrir recetas' }],
+    scene: 'craft',
+    sceneAlt: 'Sobre una mesa de trabajo, un montón de madera se convierte en un pico de madera.',
   },
   {
     title: 'Combate y vida',
@@ -69,6 +84,9 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       'Si caes, reapareces en el punto de partida con todos tus objetos.',
     ],
     keys: [{ action: 'primaryUse', label: 'Atacar o usar' }],
+    scene: 'combat',
+    sceneAlt:
+      'El personaje golpea con una espada a un tocón errante, que parpadea al recibir el golpe.',
   },
   {
     title: 'Noche, antorchas y guardado automático',
@@ -78,5 +96,8 @@ export const HOW_TO_PLAY_SLIDES: readonly HowToPlaySlide[] = [
       'La partida se guarda sola cada poco tiempo, al pausar y al salir.',
     ],
     keys: [{ action: 'pause', label: 'Pausar (también guarda)' }],
+    scene: 'night',
+    sceneAlt:
+      'De noche, una antorcha colocada en el suelo ilumina a su alrededor junto al personaje.',
   },
 ];
