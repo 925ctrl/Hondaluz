@@ -1,5 +1,6 @@
 import { el, type View } from '../dom';
 import { renderCreditsScreen } from './CreditsScreen';
+import { renderHowToPlayGuide } from './HowToPlayGuide';
 import { renderMainMenuScreen } from './MainMenuScreen';
 import type { MenuContext, MenuRoute } from './MenuContext';
 import { renderNewWorldScreen } from './NewWorldScreen';
@@ -12,6 +13,15 @@ const SCREENS: Readonly<Record<MenuRoute, (context: MenuContext) => HTMLElement>
   'select-world': renderWorldSelectScreen,
   options: renderOptionsScreen,
   credits: renderCreditsScreen,
+  'how-to-play': (context) =>
+    el('div', { class: 'panel panel-wide' }, [
+      renderHowToPlayGuide({
+        settings: context.settings,
+        onClose: () => {
+          context.navigate('main');
+        },
+      }),
+    ]),
 };
 
 /** Menú principal: un contenedor que muestra una pantalla cada vez. */

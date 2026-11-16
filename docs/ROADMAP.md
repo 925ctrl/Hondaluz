@@ -8,7 +8,8 @@ de integración y e2e) y se cumplen sus criterios de aceptación.
 - [x] Vite, Phaser 3 y TypeScript estricto.
 - [x] ESLint con reglas de dependencias por capa, y Prettier.
 - [x] Escenas, bus de eventos tipado y raíz de composición.
-- [x] Menú principal: nueva partida, continuar, seleccionar mundo, opciones y créditos.
+- [x] Menú principal: nueva partida, continuar, seleccionar mundo, cómo jugar, opciones y
+      créditos.
 - [x] Creación de mundos con semilla, guardados en IndexedDB con versión de formato.
 - [x] Escena de juego con pausa y vuelta al menú.
 - [x] Vitest y Playwright configurados y con pruebas reales.
@@ -128,18 +129,18 @@ criaturas reaparecen según la hora.
 
 - [x] Suite e2e de los diez flujos del MVP:
 
-  | Flujo                                  | Prueba                                           |
-  | -------------------------------------- | ------------------------------------------------ |
-  | 1. Menú principal, opciones y créditos | `menu-flow.spec.ts`, `options.spec.ts`           |
-  | 2. Crear un mundo con semilla          | `menu-flow.spec.ts` (misma semilla, mismo mundo) |
-  | 3. Moverse, saltar y seguir la cámara  | `menu-flow.spec.ts`, `touch.spec.ts`             |
-  | 4. Minar y recoger materiales          | `interaction.spec.ts`                            |
-  | 5. Inventario                          | `interaction.spec.ts`                            |
-  | 6. Colocar bloques                     | `interaction.spec.ts`                            |
-  | 7. Fabricar                            | `crafting.spec.ts`                               |
-  | 8. Combatir y recoger el botín         | `combat.spec.ts`                                 |
-  | 9. Ciclo de día y noche                | `combat.spec.ts`, `survival.spec.ts`             |
-  | 10. Guardar y continuar la partida     | `saving.spec.ts`, `menu-flow.spec.ts`            |
+  | Flujo                                              | Prueba                                                        |
+  | -------------------------------------------------- | ------------------------------------------------------------- |
+  | 1. Menú principal, cómo jugar, opciones y créditos | `menu-flow.spec.ts`, `options.spec.ts`, `how-to-play.spec.ts` |
+  | 2. Crear un mundo con semilla                      | `menu-flow.spec.ts` (misma semilla, mismo mundo)              |
+  | 3. Moverse, saltar y seguir la cámara              | `menu-flow.spec.ts`, `touch.spec.ts`                          |
+  | 4. Minar y recoger materiales                      | `interaction.spec.ts`                                         |
+  | 5. Inventario                                      | `interaction.spec.ts`                                         |
+  | 6. Colocar bloques                                 | `interaction.spec.ts`                                         |
+  | 7. Fabricar                                        | `crafting.spec.ts`                                            |
+  | 8. Combatir y recoger el botín                     | `combat.spec.ts`                                              |
+  | 9. Ciclo de día y noche                            | `combat.spec.ts`, `survival.spec.ts`                          |
+  | 10. Guardar y continuar la partida                 | `saving.spec.ts`, `menu-flow.spec.ts`                         |
 
   Todas exigen que no haya errores en la consola. Las de combate, noche y rendimiento usan
   ganchos de prueba (`window.hondaluz`), que solo existen con `?e2e` en la dirección.

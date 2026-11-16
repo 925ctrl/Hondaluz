@@ -224,6 +224,80 @@ input::placeholder {
   display: none;
 }
 
+/* Guía «Cómo jugar» */
+.how-to-play {
+  display: grid;
+  gap: 10px;
+}
+
+.slide {
+  display: grid;
+  gap: 8px;
+  min-height: 220px;
+  align-content: start;
+}
+
+.slide-keys {
+  display: grid;
+  gap: 8px;
+  margin: 4px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slide-keys li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.key-chip {
+  min-width: 1.6em;
+  padding: 2px 8px;
+  font: inherit;
+  text-align: center;
+  color: var(--ink);
+  background: var(--text);
+  box-shadow:
+    0 var(--px) 0 var(--muted),
+    0 0 0 var(--px) var(--ink);
+}
+
+.slide-position {
+  color: var(--muted);
+  text-align: center;
+}
+
+.slide-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.slide-dot {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  background: var(--panel-edge);
+  border: 0;
+  box-shadow: 0 0 0 var(--px) var(--ink);
+  cursor: pointer;
+}
+
+.slide-dot:hover {
+  background: var(--muted);
+}
+
+.slide-dot[aria-current='step'] {
+  background: var(--accent);
+}
+
+.slide-dot:focus-visible {
+  outline: var(--px) solid var(--text);
+  outline-offset: var(--px);
+}
+
 .world-list {
   display: grid;
   gap: 10px;
