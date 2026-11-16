@@ -1,0 +1,51 @@
+import type { EnemyDefinition } from '../../domain/enemies/EnemyDefinition';
+import { MOLE_FRAMES, MOTH_FRAMES, STUMP_FRAMES } from './sprites';
+
+/** Enemigos del juego. Añadir uno con un comportamiento existente es añadir una entrada aquí. */
+export const ENEMY_DEFINITIONS: readonly EnemyDefinition[] = [
+  {
+    id: 'stump',
+    name: 'Tocón errante',
+    maxHealth: 30,
+    damage: 12,
+    speed: 45,
+    detectionRange: 18,
+    width: 12,
+    height: 13,
+    behavior: 'walker',
+    knockbackResistance: 0.2,
+    drops: [{ itemId: 'wood', count: 3, chance: 1 }],
+    spawn: { zone: 'surface', nightOnly: true, weight: 3 },
+    frames: STUMP_FRAMES,
+  },
+  {
+    id: 'ash_moth',
+    name: 'Polilla de ceniza',
+    maxHealth: 18,
+    damage: 9,
+    speed: 60,
+    detectionRange: 22,
+    width: 12,
+    height: 9,
+    behavior: 'flyer',
+    knockbackResistance: 0,
+    drops: [{ itemId: 'glow_dust', count: 1, chance: 0.75 }],
+    spawn: { zone: 'sky', nightOnly: true, weight: 2 },
+    frames: MOTH_FRAMES,
+  },
+  {
+    id: 'rock_mole',
+    name: 'Topo de roca',
+    maxHealth: 45,
+    damage: 16,
+    speed: 32,
+    detectionRange: 16,
+    width: 13,
+    height: 9,
+    behavior: 'burrower',
+    knockbackResistance: 0.5,
+    drops: [{ itemId: 'iron_ore', count: 1, chance: 0.5 }],
+    spawn: { zone: 'underground', nightOnly: false, weight: 1, minDepth: 20 },
+    frames: MOLE_FRAMES,
+  },
+];

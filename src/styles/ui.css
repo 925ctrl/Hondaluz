@@ -1,0 +1,639 @@
+:root {
+  --ink: #0b1020;
+  --panel: #1c1633;
+  --panel-edge: #3f2d63;
+  --text: #fbeed3;
+  --muted: #b9b4d6;
+  --accent: #f0b05d;
+  --accent-strong: #f08a5d;
+  --danger: #d9534f;
+  --px: 3px;
+  /* Jersey 10 se dibuja nítida en múltiplos de 10 px. */
+  font-family: 'Jersey 10', ui-monospace, monospace;
+  font-size: 20px;
+  color: var(--text);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: var(--ink);
+}
+
+#game canvas {
+  display: block;
+  image-rendering: pixelated;
+}
+
+#ui {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+}
+
+#ui > * {
+  pointer-events: auto;
+}
+
+.screen,
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.overlay {
+  background: rgb(11 16 32 / 70%);
+}
+
+.menu {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.logo {
+  margin: 0;
+  font-size: clamp(60px, 14vw, 140px);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+  text-shadow:
+    0 var(--px) 0 var(--accent-strong),
+    0 calc(var(--px) * 2) 0 #a8433f,
+    0 calc(var(--px) * 4) 0 var(--panel);
+}
+
+.tagline {
+  margin: 0 0 20px;
+  color: var(--text);
+  text-shadow: 0 2px 0 var(--panel);
+}
+
+.menu-actions {
+  display: grid;
+  gap: 12px;
+  width: min(300px, 80vw);
+}
+
+.panel {
+  display: grid;
+  gap: 10px;
+  width: min(420px, 100%);
+  padding: 20px;
+  background: var(--panel);
+  box-shadow:
+    0 0 0 var(--px) var(--panel-edge),
+    0 0 0 calc(var(--px) * 2) var(--ink);
+}
+
+.panel-wide {
+  width: min(560px, 100%);
+}
+
+.panel .menu-actions {
+  width: 100%;
+}
+
+h2,
+h3,
+strong {
+  font-weight: 400;
+}
+
+h2,
+h3 {
+  margin: 0;
+  color: var(--accent);
+}
+
+h2 {
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+.btn {
+  padding: 8px 16px;
+  font: inherit;
+  color: var(--ink);
+  background: var(--accent);
+  border: 0;
+  box-shadow:
+    0 var(--px) 0 #a8433f,
+    0 0 0 var(--px) var(--ink);
+  cursor: pointer;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--text);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(var(--px));
+  box-shadow: 0 0 0 var(--px) var(--ink);
+}
+
+.btn:focus-visible,
+input:focus-visible {
+  outline: var(--px) solid var(--text);
+  outline-offset: var(--px);
+}
+
+.btn:disabled {
+  color: var(--muted);
+  background: var(--panel-edge);
+  box-shadow: 0 0 0 var(--px) var(--ink);
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  color: var(--text);
+  background: var(--panel-edge);
+  box-shadow:
+    0 var(--px) 0 var(--ink),
+    0 0 0 var(--px) var(--ink);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.btn-danger {
+  color: var(--text);
+  background: var(--danger);
+}
+
+.btn-danger:hover:not(:disabled) {
+  color: var(--ink);
+}
+
+.row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  font: inherit;
+  color: var(--text);
+  background: var(--ink);
+  border: var(--px) solid var(--panel-edge);
+}
+
+input::placeholder {
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.hint,
+.version {
+  color: var(--muted);
+}
+
+.version {
+  margin-top: 16px;
+  text-shadow: 0 2px 0 var(--panel);
+}
+
+.status {
+  min-height: 1.2em;
+  color: var(--accent-strong);
+}
+
+.status:empty {
+  display: none;
+}
+
+.world-list {
+  display: grid;
+  gap: 10px;
+  max-height: 50vh;
+  margin: 0;
+  padding: 6px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.world-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: var(--ink);
+}
+
+.world-info {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.controls {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.controls th,
+.controls td {
+  padding: 4px 0;
+  font-weight: 400;
+  text-align: left;
+  border-bottom: 1px solid var(--panel-edge);
+}
+
+.controls td {
+  color: var(--accent);
+  text-align: right;
+}
+
+/* El HUD cubre la pantalla pero deja pasar el ratón al juego; solo sus controles lo capturan. */
+#ui > .hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.hud-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  display: grid;
+  padding: 6px 10px;
+  background: rgb(28 22 51 / 85%);
+  box-shadow: 0 0 0 var(--px) var(--ink);
+}
+
+.hud-right {
+  right: 12px;
+  left: auto;
+}
+
+.fatal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
+}
+
+.hud-layer {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+
+.hud-layer[hidden] {
+  display: none;
+}
+
+.hud-layer > * {
+  pointer-events: auto;
+}
+
+.hotbar {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  transform: translateX(-50%);
+}
+
+.hotbar-label {
+  min-height: 1em;
+  text-shadow: 0 2px 0 var(--panel);
+}
+
+.hotbar-slots {
+  display: flex;
+  gap: 6px;
+  pointer-events: auto;
+}
+
+.slot {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  font: inherit;
+  color: var(--text);
+  background: rgb(28 22 51 / 85%);
+  border: 0;
+  box-shadow: 0 0 0 var(--px) var(--ink);
+  cursor: pointer;
+}
+
+.slot:hover {
+  background: var(--panel-edge);
+}
+
+.slot:focus-visible {
+  outline: var(--px) solid var(--text);
+  outline-offset: var(--px);
+}
+
+.slot.selected {
+  box-shadow:
+    0 0 0 var(--px) var(--accent),
+    0 0 0 calc(var(--px) * 2) var(--ink);
+}
+
+.slot img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  margin: 8px;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+.slot-count,
+.slot-key {
+  position: absolute;
+  line-height: 1;
+  text-shadow:
+    1px 1px 0 var(--ink),
+    -1px 1px 0 var(--ink),
+    1px -1px 0 var(--ink),
+    -1px -1px 0 var(--ink);
+  pointer-events: none;
+}
+
+.slot-count {
+  right: 3px;
+  bottom: 2px;
+}
+
+.slot-key {
+  top: 1px;
+  left: 4px;
+  color: var(--muted);
+}
+
+.inventory {
+  width: auto;
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(9, 48px);
+  gap: 6px;
+  padding: 3px;
+}
+
+.inventory-grid .slot {
+  background: #2a2147;
+}
+
+.inventory-grid .slot:hover {
+  background: var(--panel-edge);
+}
+
+.inventory-grid .hotbar-row {
+  margin-bottom: 10px;
+}
+
+.inventory-info {
+  min-height: 2.4em;
+  max-width: 480px;
+}
+
+.hud-panels {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 16px;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.hud-hint {
+  position: absolute;
+  right: 16px;
+  bottom: 110px;
+  left: 16px;
+  text-align: center;
+  color: var(--accent);
+  text-shadow: 0 2px 0 var(--panel);
+}
+
+.crafting {
+  align-content: start;
+  width: min(400px, 100%);
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.recipe-list {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  max-height: 330px;
+  margin: 0;
+  padding: 3px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.recipe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  background: #2a2147;
+}
+
+.recipe.locked {
+  background: var(--ink);
+}
+
+.recipe.locked .recipe-result,
+.recipe.locked strong {
+  opacity: 0.55;
+}
+
+.recipe img {
+  image-rendering: pixelated;
+}
+
+.recipe-result img {
+  display: block;
+  width: 32px;
+  height: 32px;
+}
+
+.recipe-body {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.requirements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  line-height: 1.1;
+  color: var(--muted);
+}
+
+.requirement {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.requirement img {
+  width: 16px;
+  height: 16px;
+}
+
+.requirement.lacking {
+  color: var(--accent-strong);
+}
+
+.recipe .btn {
+  padding: 6px 10px;
+}
+
+.health {
+  position: absolute;
+  top: 12px;
+  left: 50%;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  transform: translateX(-50%);
+}
+
+.health-track {
+  width: 180px;
+  height: 14px;
+  padding: 2px;
+  background: rgb(28 22 51 / 85%);
+  box-shadow: 0 0 0 var(--px) var(--ink);
+}
+
+.health-fill {
+  height: 100%;
+  background: linear-gradient(var(--accent-strong) 50%, #c4553f 50%);
+  transition: width 0.15s steps(4);
+}
+
+.health-label {
+  line-height: 1;
+  text-shadow: 0 2px 0 var(--panel);
+}
+
+.health.low .health-fill {
+  animation: health-pulse 0.6s steps(2) infinite;
+}
+
+@keyframes health-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.overlay[hidden] {
+  display: none;
+}
+
+.death {
+  pointer-events: auto;
+  background: rgb(60 10 20 / 55%);
+}
+
+.btn-key {
+  min-width: 9rem;
+  padding: 4px 10px;
+}
+
+.field {
+  display: grid;
+  gap: 4px;
+}
+
+.field input[type='range'] {
+  padding: 0;
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+/* Controles táctiles: abajo, a los lados de la barra rápida, grandes para el pulgar. */
+.touch-controls {
+  position: absolute;
+  inset: auto 12px 84px;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+
+.touch-controls[hidden] {
+  display: none;
+}
+
+.touch-group {
+  display: flex;
+  gap: 10px;
+}
+
+.touch-btn {
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0 10px;
+  color: var(--text);
+  font: inherit;
+  font-size: 1.2rem;
+  background: rgb(28 22 51 / 75%);
+  border: none;
+  box-shadow: 0 0 0 var(--px) var(--ink);
+  pointer-events: auto;
+  touch-action: none;
+  user-select: none;
+}
+
+.touch-btn[aria-pressed='true'] {
+  color: var(--ink);
+  background: var(--accent);
+}
